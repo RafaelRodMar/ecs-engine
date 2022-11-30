@@ -5,6 +5,9 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include "Vector2D.h"
+#include "AssetsManager.h"
+#include "InputHandler.h"
 
 class AssetManager;
 class ColliderComponent;

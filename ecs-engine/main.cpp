@@ -6,8 +6,9 @@
 #include<list>
 #include<cmath>
 #include "game.h"
+#include "json.hpp"
 
-//la clase juego
+//the game class
 Game* Game::s_pInstance = 0;
 
 Game::Game() {
@@ -25,7 +26,7 @@ SDL_Renderer* g_pRenderer = 0;
 bool Game::init(const char* title, int xpos, int ypos, int width,
 	int height, bool fullscreen)
 {
-	// almacenar el alto y ancho del juego.
+	// store the width and height of the game
 	m_gameWidth = width;
 	m_gameHeight = height;
 
@@ -82,6 +83,11 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	std::cout << "init success\n";
 	m_bRunning = true; // everything initiated successfully, start the main loop
 
+	//load images, sounds, music and fonts
+	AssetsManager::Instance()->loadAssetsJson();
+	Mix_Volume(-1, 16); //adjust sound/music volume for all channels
+
+
 	return true;
 }
 
@@ -133,20 +139,20 @@ int main(int argc, char* args[])
 		std::cout << "game init success!\n";
 		while (Game::Instance()->running())
 		{
-			frameStart = SDL_GetTicks(); //tiempo inicial
+			frameStart = SDL_GetTicks(); //initial time
 
 			Game::Instance()->handleEvents();
 			Game::Instance()->update();
 			Game::Instance()->render();
 
-			frameTime = SDL_GetTicks() - frameStart; //tiempo final - tiempo inicial
+			frameTime = SDL_GetTicks() - frameStart; //final time - initial time
 
 			if (frameTime < DELAY_TIME)
 			{
 				//con tiempo fijo el retraso es 1000 / 60 = 16,66
 				//procesar handleEvents, update y render tarda 1, y hay que esperar 15
 				//cout << "frameTime : " << frameTime << "  delay : " << (int)(DELAY_TIME - frameTime) << endl;
-				SDL_Delay((int)(DELAY_TIME - frameTime)); //esperamos hasta completar los 60 fps
+				SDL_Delay((int)(DELAY_TIME - frameTime)); //wait until complete the 60 fps
 			}
 		}
 	}
