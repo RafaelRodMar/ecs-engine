@@ -1,5 +1,10 @@
 {
-    "fnt": {
-        "font": "sansation.ttf"
-    }
+  "fnt": {
+    "font": "sansation.ttf"
+  },
+  "img": {
+    "dirt": "dirt.png",
+    "grass": "grass.png",
+    "water":  "water.png"
+  }
 }

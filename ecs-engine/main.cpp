@@ -87,6 +87,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	AssetsManager::Instance()->loadAssetsJson();
 	Mix_Volume(-1, 16); //adjust sound/music volume for all channels
 
+	map = new Map();
 
 	return true;
 }
@@ -111,6 +112,9 @@ void Game::update()
 void Game::render()
 {
 	SDL_RenderClear(m_pRenderer);
+
+	map->drawMap();
+
 	SDL_RenderPresent(m_pRenderer);
 }
 

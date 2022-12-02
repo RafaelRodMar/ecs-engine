@@ -8,6 +8,7 @@
 #include "Vector2D.h"
 #include "AssetsManager.h"
 #include "InputHandler.h"
+#include "Map.h"
 
 class AssetManager;
 class ColliderComponent;
@@ -40,6 +41,8 @@ public:
 
 	int getGameWidth() const { return m_gameWidth; }
 	int getGameHeight() const { return m_gameHeight; }
+
+	class Map* map;
 
 private:
 	Game();

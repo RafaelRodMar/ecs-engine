@@ -133,6 +133,7 @@
     <ClCompile Include="AssetsManager.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
