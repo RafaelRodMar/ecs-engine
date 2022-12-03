@@ -12,11 +12,13 @@ class Entity;
 
 using ComponentID = std::size_t;
 
+//get a ID for the next component.
 inline ComponentID getComponentTypeID() {
 	static ComponentID lastID = 0;
 	return lastID++;
 }
 
+//get a ID for the next component, called by component type.
 template <typename T> inline ComponentID getComponentTypeID() noexcept {
 	static ComponentID typeID = getComponentTypeID();
 	return typeID;
@@ -24,8 +26,8 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept {
 
 constexpr std::size_t maxComponents = 32;
 
-using ComponentBitSet = std::bitset<maxComponents>;
-using ComponentArray = std::array<Component*, maxComponents>;
+using ComponentBitSet = std::bitset<maxComponents>; //for checking if a entity have any components.
+using ComponentArray = std::array<Component*, maxComponents>; //array with components pointers.
 
 class Component {
 public:
@@ -40,7 +42,7 @@ public:
 
 class Entity {
 private:
-	bool active = true;
+	bool active = true; //if it is false, then it should be destroyed.
 	std::vector<std::unique_ptr<Component>> components;
 
 	ComponentArray componentArray;
@@ -64,15 +66,15 @@ public:
 
 	template <typename T, typename... TArgs>
 	T& addComponent(TArgs&&... mArgs) {
-		T* c(new T(std::forward<TArgs>(mArgs)...));
-		c->entity = this;
-		std::unique_ptr<Component> uPtr{ c };
-		components.emplace_back(std::move(uPtr));
+		T* c(new T(std::forward<TArgs>(mArgs)...)); //create new component.
+		c->entity = this;						    //set the entity as owner of the component.
+		std::unique_ptr<Component> uPtr{ c };       //wrap the pointer with a unique_ptr.
+		components.emplace_back(std::move(uPtr));   //add component to the vector.
 
-		componentArray[getComponentTypeID<T>()] = c;
-		componentBitSet[getComponentTypeID<T>()] = true;
+		componentArray[getComponentTypeID<T>()] = c;  //add pointer to the array of components.
+		componentBitSet[getComponentTypeID<T>()] = true; //set the bit in the bitset.
 
-		c->init();
+		c->init();  //initialize the component.
 		return *c;
 	}
 
