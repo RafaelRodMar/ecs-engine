@@ -87,7 +87,14 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	AssetsManager::Instance()->loadAssetsJson();
 	Mix_Volume(-1, 16); //adjust sound/music volume for all channels
 
+	//map of the game
 	map = new Map();
+
+	//Entity Component System
+	auto& newPlayer(manager.addEntity()); //creates a new entity
+
+	newPlayer.addComponent<PositionComponent>(); //the player has a position
+	newPlayer.getComponent<PositionComponent>().setPos(500, 500); //set the player position
 
 	return true;
 }
@@ -107,6 +114,8 @@ void Game::handleEvents()
 
 void Game::update()
 {
+	manager.update(); //ECS
+	//std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
 }
 
 void Game::render()

@@ -9,6 +9,8 @@
 #include "AssetsManager.h"
 #include "InputHandler.h"
 #include "Map.h"
+#include "ECS.h"
+#include "Components.h"
 
 class AssetManager;
 class ColliderComponent;
@@ -43,6 +45,7 @@ public:
 	int getGameHeight() const { return m_gameHeight; }
 
 	class Map* map;
+	Manager manager;
 
 private:
 	Game();

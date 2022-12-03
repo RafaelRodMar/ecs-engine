@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssetsManager.cpp" />
+    <ClCompile Include="ECS.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -138,6 +139,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetsManager.h" />
+    <ClInclude Include="Components.h" />
+    <ClInclude Include="ECS.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="json.hpp" />
