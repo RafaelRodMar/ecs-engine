@@ -8,6 +8,7 @@
 #include "game.h"
 #include "json.hpp"
 #include "Components.h"
+#include "Collision.h"
 
 //map class
 class Map* mapa;
@@ -31,6 +32,7 @@ SDL_Renderer* g_pRenderer = 0;
 
 //Entity Component System
 auto& player(manager.addEntity()); //creates a new entity
+auto& wall(manager.addEntity());
 
 
 bool Game::init(const char* title, int xpos, int ypos, int width,
@@ -100,10 +102,15 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	//map of the game
 	mapa = new Map();
 
-
+	//ecs implementation
 	player.addComponent<TransformComponent>(10,10); //the player has a position
 	player.addComponent<SpriteComponent>("player");
 	player.addComponent<KeyboardController>();
+	player.addComponent<ColliderComponent>("player");
+
+	wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
+	wall.addComponent<SpriteComponent>("dirt");
+	wall.addComponent<ColliderComponent>("wall");
 
 	return true;
 }
@@ -117,6 +124,12 @@ void Game::update()
 {
 	manager.refresh(); //remove destroyed elements
 	manager.update(); //ECS
+
+	if (Collision::AABB(player.getComponent<ColliderComponent>().collider,
+		wall.getComponent<ColliderComponent>().collider))
+	{
+		std::cout << "wall hit!" << std::endl;
+	}
 
 	//std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
 	/*player.getComponent<TransformComponent>().position += Vector2D(5, 0);
@@ -138,15 +151,20 @@ void Game::render()
 
 void Game::clean()
 {
+	AssetsManager::Instance()->clearAllTextures();
+	AssetsManager::Instance()->clearSoundsMusic();
+	InputHandler::Instance()->clean();
+	AssetsManager::Instance()->clearFonts();
+	TTF_Quit();
 	SDL_DestroyWindow(m_pWindow);
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_Quit();
+	m_bRunning = false;
 }
 
 void Game::quit()
 {
 	clean();
-	SDL_Quit();
 }
 
 const int FPS = 60;

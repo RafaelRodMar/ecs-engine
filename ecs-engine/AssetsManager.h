@@ -54,12 +54,14 @@ public:
 	void drawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer *pRenderer);
 
 	void clearFromTextureMap(string id); //delete SDL_Texture from the map
+	void clearAllTextures();
 
 	//SOUND / MUSIC
 
 	bool loadSound(std::string fileName, std::string id, sound_type type);
 	void playSound(std::string id, int loop);
 	void playMusic(std::string id, int loop);
+	void clearSoundsMusic();
 
 	//FONTS
 	bool loadFont(const string &fileName, string id, int size);
