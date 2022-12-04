@@ -145,6 +145,8 @@
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="PositionComponent.h" />
+    <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

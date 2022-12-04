@@ -5,6 +5,8 @@
   "img": {
     "dirt": "dirt.png",
     "grass": "grass.png",
-    "water":  "water.png"
+    "water":  "water.png",
+    "player": "player.png",
+    "enemy": "enemy.png"
   }
 }

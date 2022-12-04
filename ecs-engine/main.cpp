@@ -7,6 +7,12 @@
 #include<cmath>
 #include "game.h"
 #include "json.hpp"
+#include "Components.h"
+
+//map class
+class Map* mapa;
+//components manager
+Manager manager;
 
 //the game class
 Game* Game::s_pInstance = 0;
@@ -22,6 +28,10 @@ Game::~Game() {
 
 SDL_Window* g_pWindow = 0;
 SDL_Renderer* g_pRenderer = 0;
+
+//Entity Component System
+auto& player(manager.addEntity()); //creates a new entity
+
 
 bool Game::init(const char* title, int xpos, int ypos, int width,
 	int height, bool fullscreen)
@@ -88,13 +98,11 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	Mix_Volume(-1, 16); //adjust sound/music volume for all channels
 
 	//map of the game
-	map = new Map();
+	mapa = new Map();
 
-	//Entity Component System
-	auto& newPlayer(manager.addEntity()); //creates a new entity
 
-	newPlayer.addComponent<PositionComponent>(); //the player has a position
-	newPlayer.getComponent<PositionComponent>().setPos(500, 500); //set the player position
+	player.addComponent<PositionComponent>(10,10); //the player has a position
+	player.addComponent<SpriteComponent>("player");
 
 	return true;
 }
@@ -114,15 +122,22 @@ void Game::handleEvents()
 
 void Game::update()
 {
+	manager.refresh(); //remove destroyed elements
 	manager.update(); //ECS
 	//std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
+
+	if (player.getComponent<PositionComponent>().x() > 100)
+	{
+		player.getComponent<SpriteComponent>().setTex("enemy");
+	}
 }
 
 void Game::render()
 {
 	SDL_RenderClear(m_pRenderer);
 
-	map->drawMap();
+	mapa->drawMap();
+	manager.draw(); //ECS
 
 	SDL_RenderPresent(m_pRenderer);
 }
