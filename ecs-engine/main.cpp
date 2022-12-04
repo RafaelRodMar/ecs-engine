@@ -7,7 +7,7 @@
 #include<cmath>
 #include "game.h"
 #include "json.hpp"
-#include "Components.h"
+#include "ECS/Components.h"
 
 //map class
 class Map* mapa;
@@ -101,7 +101,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	mapa = new Map();
 
 
-	player.addComponent<PositionComponent>(10,10); //the player has a position
+	player.addComponent<TransformComponent>(10,10); //the player has a position
 	player.addComponent<SpriteComponent>("player");
 
 	return true;
@@ -125,8 +125,8 @@ void Game::update()
 	manager.refresh(); //remove destroyed elements
 	manager.update(); //ECS
 	//std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
-
-	if (player.getComponent<PositionComponent>().x() > 100)
+	player.getComponent<TransformComponent>().position += Vector2D(5, 0);
+	if (player.getComponent<TransformComponent>().position.m_x > 100)
 	{
 		player.getComponent<SpriteComponent>().setTex("enemy");
 	}

@@ -9,7 +9,7 @@
 #include "AssetsManager.h"
 #include "InputHandler.h"
 #include "Map.h"
-#include "ECS.h"
+#include "ECS/ECS.h"
 
 class AssetManager;
 class ColliderComponent;

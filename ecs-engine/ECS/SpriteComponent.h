@@ -7,7 +7,7 @@
 
 class SpriteComponent : public Component {
 private:
-	PositionComponent *position;
+	TransformComponent *transform;
 	std::string textureID;
 	SDL_Rect srcRect, destRect;
 
@@ -23,7 +23,7 @@ public:
 
 	void init() override
 	{
-		position = &entity->getComponent<PositionComponent>();
+		transform = &entity->getComponent<TransformComponent>();
 
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = srcRect.h = 32;
@@ -32,13 +32,13 @@ public:
 
 	void update() override
 	{
-		destRect.x = position->x();
-		destRect.y = position->y();
+		destRect.x = (int)transform->position.m_x;
+		destRect.y = (int)transform->position.m_y;
 	}
 
 	void draw() override
 	{
-		AssetsManager::Instance()->drawFrame(textureID, position->x(), position->y(), 32, 32, 0, 0, 
+		AssetsManager::Instance()->drawFrame(textureID, (int)transform->position.m_x, (int)transform->position.m_y, 32, 32, 0, 0, 
 			Game::Instance()->getRenderer(), 0.0, 255, SDL_FLIP_NONE);
 	}
 };

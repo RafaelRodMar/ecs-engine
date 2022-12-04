@@ -131,7 +131,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssetsManager.cpp" />
-    <ClCompile Include="ECS.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -139,14 +138,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetsManager.h" />
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="ECS.h" />
+    <ClInclude Include="ECS\Components.h" />
+    <ClInclude Include="ECS\ECS.h" />
+    <ClInclude Include="ECS\SpriteComponent.h" />
+    <ClInclude Include="ECS\TransformComponent.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="PositionComponent.h" />
-    <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
