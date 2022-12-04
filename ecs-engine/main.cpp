@@ -7,7 +7,7 @@
 #include<cmath>
 #include "game.h"
 #include "json.hpp"
-#include "ECS/Components.h"
+#include "Components.h"
 
 //map class
 class Map* mapa;
@@ -103,33 +103,27 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 
 	player.addComponent<TransformComponent>(10,10); //the player has a position
 	player.addComponent<SpriteComponent>("player");
+	player.addComponent<KeyboardController>();
 
 	return true;
 }
 
 void Game::handleEvents()
 {
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type) {
-	case SDL_QUIT:
-		m_bRunning = false;
-		break;
-	default:
-		break;
-	}
+	InputHandler::Instance()->update();
 }
 
 void Game::update()
 {
 	manager.refresh(); //remove destroyed elements
 	manager.update(); //ECS
+
 	//std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
-	player.getComponent<TransformComponent>().position += Vector2D(5, 0);
+	/*player.getComponent<TransformComponent>().position += Vector2D(5, 0);
 	if (player.getComponent<TransformComponent>().position.m_x > 100)
 	{
 		player.getComponent<SpriteComponent>().setTex("enemy");
-	}
+	}*/
 }
 
 void Game::render()
@@ -151,6 +145,8 @@ void Game::clean()
 
 void Game::quit()
 {
+	clean();
+	SDL_Quit();
 }
 
 const int FPS = 60;

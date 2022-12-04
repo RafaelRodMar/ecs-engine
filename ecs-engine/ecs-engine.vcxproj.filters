@@ -50,16 +50,19 @@
     <ClInclude Include="Map.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Components.h">
+    <ClInclude Include="Components.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\ECS.h">
+    <ClInclude Include="ECS.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\SpriteComponent.h">
+    <ClInclude Include="KeyboardController.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\TransformComponent.h">
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
