@@ -27,13 +27,13 @@ public:
 		switch (tileID)
 		{
 		case 0:
-			textureID = "water";
-			break;
-		case 1:
 			textureID = "dirt";
 			break;
-		case 2:
+		case 1:
 			textureID = "grass";
+			break;
+		case 2:
+			textureID = "water";
 			break;
 		default:
 			break;

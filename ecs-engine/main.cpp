@@ -37,10 +37,6 @@ std::vector<ColliderComponent*> Game::colliders;
 auto& player(manager.addEntity()); //creates a new entity
 auto& wall(manager.addEntity());
 
-auto& tile0(manager.addEntity());
-auto& tile1(manager.addEntity());
-auto& tile2(manager.addEntity());
-
 bool Game::init(const char* title, int xpos, int ypos, int width,
 	int height, bool fullscreen)
 {
@@ -107,13 +103,9 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 
 	//map of the game
 	mapa = new Map();
+	Map::loadMap("assets/p16x16.map", 16, 16);
 
 	//ecs implementation
-	tile0.addComponent<TileComponent>(200, 200, 32, 32, 0);
-	tile1.addComponent<TileComponent>(250, 250, 32, 32, 1);
-	tile1.addComponent<ColliderComponent>("dirt");
-	tile2.addComponent<TileComponent>(150, 150, 32, 32, 2);
-	tile2.addComponent<ColliderComponent>("grass");
 
 	player.addComponent<TransformComponent>(10,10); //the player has a position
 	player.addComponent<SpriteComponent>("player");
@@ -161,10 +153,14 @@ void Game::render()
 {
 	SDL_RenderClear(m_pRenderer);
 
-	//mapa->drawMap();
 	manager.draw(); //ECS
 
 	SDL_RenderPresent(m_pRenderer);
+}
+
+void Game::AddTile(int id, int x, int y) {
+	auto& tile(manager.addEntity());
+	tile.addComponent<TileComponent>(x, y, 32, 32, id);
 }
 
 void Game::clean()
