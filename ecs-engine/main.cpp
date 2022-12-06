@@ -30,10 +30,16 @@ Game::~Game() {
 SDL_Window* g_pWindow = 0;
 SDL_Renderer* g_pRenderer = 0;
 
+//
+std::vector<ColliderComponent*> Game::colliders;
+
 //Entity Component System
 auto& player(manager.addEntity()); //creates a new entity
 auto& wall(manager.addEntity());
 
+auto& tile0(manager.addEntity());
+auto& tile1(manager.addEntity());
+auto& tile2(manager.addEntity());
 
 bool Game::init(const char* title, int xpos, int ypos, int width,
 	int height, bool fullscreen)
@@ -103,6 +109,12 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	mapa = new Map();
 
 	//ecs implementation
+	tile0.addComponent<TileComponent>(200, 200, 32, 32, 0);
+	tile1.addComponent<TileComponent>(250, 250, 32, 32, 1);
+	tile1.addComponent<ColliderComponent>("dirt");
+	tile2.addComponent<TileComponent>(150, 150, 32, 32, 2);
+	tile2.addComponent<ColliderComponent>("grass");
+
 	player.addComponent<TransformComponent>(10,10); //the player has a position
 	player.addComponent<SpriteComponent>("player");
 	player.addComponent<KeyboardController>();
@@ -125,13 +137,17 @@ void Game::update()
 	manager.refresh(); //remove destroyed elements
 	manager.update(); //ECS
 
-	if (Collision::AABB(player.getComponent<ColliderComponent>().collider,
+	for (auto cc : colliders) {
+		Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
+	}
+
+	/*if (Collision::AABB(player.getComponent<ColliderComponent>().collider,
 		wall.getComponent<ColliderComponent>().collider))
 	{
 		player.getComponent<TransformComponent>().scale = 1;
 		player.getComponent<TransformComponent>().velocity *= -1;
 		std::cout << "wall hit!" << std::endl;
-	}
+	}*/
 
 	//std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
 	/*player.getComponent<TransformComponent>().position += Vector2D(5, 0);
@@ -145,7 +161,7 @@ void Game::render()
 {
 	SDL_RenderClear(m_pRenderer);
 
-	mapa->drawMap();
+	//mapa->drawMap();
 	manager.draw(); //ECS
 
 	SDL_RenderPresent(m_pRenderer);
