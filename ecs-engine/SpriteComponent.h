@@ -32,8 +32,8 @@ public:
 
 	void update() override
 	{
-		destRect.x = (int)transform->position.m_x;
-		destRect.y = (int)transform->position.m_y;
+		destRect.x = static_cast<int>(transform->position.m_x);
+		destRect.y = static_cast<int>(transform->position.m_y);
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 	}
