@@ -4,6 +4,8 @@
 #include "AssetsManager.h"
 #include "Components.h"
 #include "sdl.h"
+#include "Animation.h"
+#include <map>
 
 class SpriteComponent : public Component {
 private:
@@ -17,16 +19,28 @@ private:
 	int speed = 100;
 
 public:
+
+	int animIndex = 0;
+	std::map<const char*, Animation> animations;
+
+	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
+
 	SpriteComponent() = default;
 	SpriteComponent(const string id) {
 		setTex(id);
 	}
 
-	SpriteComponent(const string id, int nFrames, int mSpeed) {
+	SpriteComponent(const string id, bool isAnimated) {
 		setTex(id);
-		animated = true;
-		frames = nFrames;
-		speed = mSpeed;
+		animated = isAnimated;
+
+		Animation idle = Animation(0, 3, 100);
+		Animation walk = Animation(1, 8, 100);
+
+		animations.emplace("Idle", idle);
+		animations.emplace("Walk", walk);
+
+		Play("Idle");
 	}
 
 	void setTex(const string id) {
@@ -50,6 +64,8 @@ public:
 			cFrame = (SDL_GetTicks() / speed) % frames; //only useful line in update. The rest is from BirchEngine
 		}
 
+		srcRect.y = animIndex * transform->height; //for sprite sheets with various animations.
+
 		destRect.x = static_cast<int>(transform->position.m_x);
 		destRect.y = static_cast<int>(transform->position.m_y);
 		destRect.w = transform->width * transform->scale;
@@ -58,8 +74,14 @@ public:
 
 	void draw() override
 	{
-		AssetsManager::Instance()->drawFrame(textureID, (int)transform->position.m_x, (int)transform->position.m_y, 32, 32, 0, cFrame, 
-			Game::Instance()->getRenderer(), 0.0, 255, SDL_FLIP_NONE);
+		AssetsManager::Instance()->drawFrame(textureID, (int)transform->position.m_x, (int)transform->position.m_y, 32, 32, animIndex, cFrame, 
+			Game::Instance()->getRenderer(), 0.0, 255, spriteFlip);
+	}
+
+	void Play(const char* animName) {
+		frames = animations[animName].frames;
+		animIndex = animations[animName].index;
+		speed = animations[animName].speed;
 	}
 };
 

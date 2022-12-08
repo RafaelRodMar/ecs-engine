@@ -116,7 +116,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	//ecs implementation
 
 	player.addComponent<TransformComponent>(10,10); //the player has a position
-	player.addComponent<SpriteComponent>("player_idle", 4, 100);
+	player.addComponent<SpriteComponent>("player_anims", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
