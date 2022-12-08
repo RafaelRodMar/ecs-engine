@@ -64,6 +64,24 @@ void AssetsManager::drawFrame(std::string id, int x, int y, int width, int heigh
 	SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, angle, 0, flip); //Load current frame on the buffer game.
 }
 
+void AssetsManager::drawFrameScl(std::string id, int x, int y, int srcWidth, int srcHeight, int destWidth, int destHeight, int currentRow, int currentFrame, SDL_Renderer *pRenderer, double angle, int alpha, SDL_RendererFlip flip)
+{
+	SDL_Rect srcRect; //source rectangle
+	SDL_Rect destRect; //destination rectangle
+
+	srcRect.x = srcWidth * currentFrame;
+	srcRect.y = srcHeight * (currentRow);
+	srcRect.w = srcWidth;
+	destRect.w = destWidth;
+	srcRect.h = srcHeight;
+	destRect.h = destHeight;
+	destRect.x = x;
+	destRect.y = y;
+
+	SDL_SetTextureAlphaMod(m_textureMap[id], alpha);
+	SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, angle, 0, flip); //Load current frame on the buffer game.
+}
+
 void AssetsManager::drawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer *pRenderer)
 {
 	SDL_Rect srcRect;
@@ -72,6 +90,22 @@ void AssetsManager::drawTile(std::string id, int margin, int spacing, int x, int
 	srcRect.y = margin + (spacing + height) * currentRow;
 	srcRect.w = destRect.w = width;
 	srcRect.h = destRect.h = height;
+	destRect.x = x;
+	destRect.y = y;
+
+	SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, SDL_FLIP_NONE);
+}
+
+void AssetsManager::drawTileScl(std::string id, int margin, int spacing, int x, int y, int srcWidth, int srcHeight, int destWidth, int destHeight, int currentRow, int currentFrame, SDL_Renderer *pRenderer)
+{
+	SDL_Rect srcRect;
+	SDL_Rect destRect;
+	srcRect.x = margin + (spacing + srcWidth) * currentFrame;
+	srcRect.y = margin + (spacing + srcHeight) * currentRow;
+	srcRect.w = srcWidth;
+	destRect.w = destWidth;
+	srcRect.h = srcHeight;
+	destRect.h = destHeight;
 	destRect.x = x;
 	destRect.y = y;
 

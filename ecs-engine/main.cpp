@@ -37,6 +37,8 @@ std::vector<ColliderComponent*> Game::colliders;
 auto& player(manager.addEntity()); //creates a new entity
 auto& wall(manager.addEntity());
 
+std::string mapfile = "terrain_ss";
+
 //groups
 enum groupLabels : std::size_t {
 	groupMap,
@@ -111,20 +113,20 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 
 	//map of the game
 	mapa = new Map();
-	Map::loadMap("assets/p16x16.map", 16, 16);
+	Map::loadMap("assets/map.map", 25, 20);
 
 	//ecs implementation
-
-	player.addComponent<TransformComponent>(10,10); //the player has a position
+	player.addComponent<TransformComponent>(4);
+	//player.addComponent<TransformComponent>(10,10); //the player has a position
 	player.addComponent<SpriteComponent>("player_anims", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
 
-	wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
+	/*wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
 	wall.addComponent<SpriteComponent>("dirt");
 	wall.addComponent<ColliderComponent>("wall");
-	wall.addGroup(groupMap);
+	wall.addGroup(groupMap);*/
 
 	return true;
 }
@@ -174,9 +176,9 @@ void Game::render()
 	SDL_RenderPresent(m_pRenderer);
 }
 
-void Game::AddTile(int id, int x, int y) {
+void Game::AddTile(int srcX, int srcY, int xpos, int ypos) {
 	auto& tile(manager.addEntity());
-	tile.addComponent<TileComponent>(x, y, 32, 32, id);
+	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfile);
 	tile.addGroup(groupMap);
 }
 
@@ -206,7 +208,7 @@ int main(int argc, char* args[])
 	Uint32 frameStart, frameTime;
 
 	std::cout << "game init attempt...\n";
-	if (Game::Instance()->init("Let's make games", 100, 100, 600, 400,
+	if (Game::Instance()->init("Let's make games", 100, 100, 800, 632,
 		false))
 	{
 		std::cout << "game init success!\n";

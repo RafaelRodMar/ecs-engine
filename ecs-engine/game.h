@@ -42,7 +42,7 @@ public:
 	int getGameWidth() const { return m_gameWidth; }
 	int getGameHeight() const { return m_gameHeight; }
 
-	static void AddTile(int id, int x, int y);
+	static void AddTile(int srcX, int srcY, int xpos, int ypos);
 	static std::vector<ColliderComponent*> colliders;
 
 private:

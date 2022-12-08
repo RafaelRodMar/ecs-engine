@@ -74,7 +74,7 @@ public:
 
 	void draw() override
 	{
-		AssetsManager::Instance()->drawFrame(textureID, (int)transform->position.m_x, (int)transform->position.m_y, 32, 32, animIndex, cFrame, 
+		AssetsManager::Instance()->drawFrameScl(textureID, (int)transform->position.m_x, (int)transform->position.m_y, srcRect.w, srcRect.h, destRect.w, destRect.h, animIndex, cFrame,
 			Game::Instance()->getRenderer(), 0.0, 255, spriteFlip);
 	}
 

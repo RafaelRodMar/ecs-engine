@@ -51,7 +51,12 @@ public:
 	void drawFrame(string id, int x, int y, int width, int height,
 		int currentRow, int currentFrame, SDL_Renderer* pRenderer, double angle, int alpha, SDL_RendererFlip flip = SDL_FLIP_NONE); //draw image sprite
 
+	void drawFrameScl(string id, int x, int y, int srcWidth, int srcHeight, int destWidth, int destHeight,
+		int currentRow, int currentFrame, SDL_Renderer* pRenderer, double angle, int alpha, SDL_RendererFlip flip = SDL_FLIP_NONE); //draw image sprite
+
 	void drawTile(std::string id, int margin, int spacing, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer *pRenderer);
+
+	void drawTileScl(std::string id, int margin, int spacing, int x, int y, int srcWidth, int srcHeight, int destWidth, int destHeight, int currentRow, int currentFrame, SDL_Renderer *pRenderer);
 
 	void clearFromTextureMap(string id); //delete SDL_Texture from the map
 	void clearAllTextures();

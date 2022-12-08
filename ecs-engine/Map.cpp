@@ -10,48 +10,22 @@ Map::~Map() {
 }
 
 void Map::loadMap(std::string path, int sizeX, int sizeY) {
-	char tile;
+	char c;
 	std::fstream mapFile;
 	mapFile.open(path);
 
+	int srcX, srcY;
+
 	for (int y = 0; y < sizeY; y++) {
 		for (int x = 0; x < sizeX; x++) {
-			mapFile.get(tile);
-			Game::AddTile(atoi(&tile), x * 32, y * 32);
+			mapFile.get(c);
+			srcY = atoi(&c) * 32;
+			mapFile.get(c);
+			srcX = atoi(&c) * 32;
+			Game::AddTile(srcX, srcY, x * 64, y * 64);
 			mapFile.ignore();
 		}
 	}
 
 	mapFile.close();
 }
-
-//void Map::loadMap(int arr[20][25]) {
-//	for (int row = 0; row < 20; row++) {
-//		for (int col = 0; col < 25; col++) {
-//			map[row][col] = arr[row][col];
-//		}
-//	}
-//}
-//
-//void Map::drawMap() {
-//	int type = 0;
-//	for (int row = 0; row < 20; row++) {
-//		for (int col = 0; col < 25; col++) {
-//			type = map[row][col];
-//
-//			switch (type) {
-//			case 0:
-//				AssetsManager::Instance()->drawTile("water", 0, 0, col * 32, row * 32, 32, 32, 0, 0, Game::Instance()->getRenderer());
-//				break;
-//			case 1:
-//				AssetsManager::Instance()->drawTile("dirt", 0, 0, col * 32, row * 32, 32, 32, 0, 0, Game::Instance()->getRenderer());
-//				break;
-//			case 2:
-//				AssetsManager::Instance()->drawTile("grass", 0, 0, col * 32, row * 32, 32, 32, 0, 0, Game::Instance()->getRenderer());
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//	}
-//}
