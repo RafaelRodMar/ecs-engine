@@ -7,6 +7,7 @@
     "grass": "grass.png",
     "water":  "water.png",
     "player": "player.png",
+    "player_idle": "player_idle.png",
     "enemy": "enemy.png"
   }
 }
