@@ -44,13 +44,13 @@ public:
 
 	static void AddTile(int srcX, int srcY, int xpos, int ypos);
 	static std::vector<ColliderComponent*> colliders;
+	static bool m_bRunning;
 
 private:
 	Game();
 	static Game* s_pInstance;
 	SDL_Renderer* m_pRenderer;
 	SDL_Window *m_pWindow;
-	bool m_bRunning;
 
 	int m_gameWidth;
 	int m_gameHeight;

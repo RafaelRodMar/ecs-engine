@@ -33,6 +33,8 @@ SDL_Renderer* g_pRenderer = 0;
 //
 std::vector<ColliderComponent*> Game::colliders;
 
+bool Game::m_bRunning = false;
+
 //Entity Component System
 auto& player(manager.addEntity()); //creates a new entity
 auto& wall(manager.addEntity());
@@ -46,6 +48,12 @@ enum groupLabels : std::size_t {
 	groupEnemies,
 	groupColliders
 };
+
+
+auto& tiles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
+auto& enemies(manager.getGroup(groupEnemies));
+
 
 bool Game::init(const char* title, int xpos, int ypos, int width,
 	int height, bool fullscreen)
@@ -141,9 +149,18 @@ void Game::update()
 	manager.refresh(); //remove destroyed elements
 	manager.update(); //ECS
 
-	for (auto cc : colliders) {
-		Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
+	Vector2D pVel = player.getComponent<TransformComponent>().velocity;
+	int pSpeed = player.getComponent<TransformComponent>().speed;
+
+	//make tiles move at the same speed than player.
+	for (auto t : tiles) {
+		t->getComponent<TileComponent>().destRect.x += -(pVel.m_x * pSpeed);
+		t->getComponent<TileComponent>().destRect.y += -(pVel.m_y * pSpeed);
 	}
+
+	/*for (auto cc : colliders) {
+		Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
+	}*/
 
 	/*if (Collision::AABB(player.getComponent<ColliderComponent>().collider,
 		wall.getComponent<ColliderComponent>().collider))
@@ -160,10 +177,6 @@ void Game::update()
 		player.getComponent<SpriteComponent>().setTex("enemy");
 	}*/
 }
-
-auto& tiles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupPlayers));
-auto& enemies(manager.getGroup(groupEnemies));
 
 void Game::render()
 {

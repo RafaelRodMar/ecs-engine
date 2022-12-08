@@ -41,5 +41,9 @@ public:
 			transform->velocity.m_y = 1;
 			sprite->Play("Walk");
 		}
+		if (InputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE))
+		{
+			Game::m_bRunning = false;
+		}
 	}
 };

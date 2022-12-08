@@ -18,7 +18,7 @@ public:
 	}
 
 	TransformComponent(int sc) {
-		position = Vector2D(0.0f,0.0f);
+		position = Vector2D(400.0f,320.0f);
 		scale = sc;
 	}
 
@@ -38,7 +38,6 @@ public:
 	}
 
 	void update() override {
-		position += velocity * speed;
 	}
 
 	void setPos(float x, float y) {
