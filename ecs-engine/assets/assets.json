@@ -4,6 +4,7 @@
   },
   "img": {
     "player_anims": "player_anims.png",
-    "terrain_ss": "terrain_ss.png"
+    "terrain_ss": "terrain_ss.png",
+    "coltex": "coltex.png"
   }
 }

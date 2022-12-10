@@ -42,10 +42,15 @@ public:
 	int getGameWidth() const { return m_gameWidth; }
 	int getGameHeight() const { return m_gameHeight; }
 
-	static void AddTile(int srcX, int srcY, int xpos, int ypos);
-	static std::vector<ColliderComponent*> colliders;
 	static bool m_bRunning;
 	static SDL_Rect camera;
+
+	//groups
+	enum groupLabels : std::size_t {
+		groupMap,
+		groupPlayers,
+		groupColliders
+	};
 
 private:
 	Game();
