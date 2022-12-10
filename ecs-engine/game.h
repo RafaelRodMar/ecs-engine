@@ -45,6 +45,7 @@ public:
 	static void AddTile(int srcX, int srcY, int xpos, int ypos);
 	static std::vector<ColliderComponent*> colliders;
 	static bool m_bRunning;
+	static SDL_Rect camera;
 
 private:
 	Game();

@@ -18,6 +18,9 @@ Manager manager;
 //the game class
 Game* Game::s_pInstance = 0;
 
+//camera
+SDL_Rect Game::camera = { 0,0,800,640 };
+
 Game::Game() {
 	m_pRenderer = NULL;
 	m_pWindow = NULL;
@@ -149,14 +152,25 @@ void Game::update()
 	manager.refresh(); //remove destroyed elements
 	manager.update(); //ECS
 
-	Vector2D pVel = player.getComponent<TransformComponent>().velocity;
-	int pSpeed = player.getComponent<TransformComponent>().speed;
+	//camera
+	camera.x = player.getComponent<TransformComponent>().position.m_x - 400;
+	camera.y = player.getComponent<TransformComponent>().position.m_y - 320;
 
-	//make tiles move at the same speed than player.
-	for (auto t : tiles) {
-		t->getComponent<TileComponent>().destRect.x += -(pVel.m_x * pSpeed);
-		t->getComponent<TileComponent>().destRect.y += -(pVel.m_y * pSpeed);
-	}
+	if (camera.x < 0) camera.x = 0;
+	if (camera.y < 0) camera.y = 0;
+	if (camera.x > camera.w) camera.x = camera.w;
+	if (camera.y > camera.h) camera.y = camera.h;
+
+	//scrolling
+	//Vector2D pVel = player.getComponent<TransformComponent>().velocity;
+	//int pSpeed = player.getComponent<TransformComponent>().speed;
+
+	////make tiles move at the same speed than player.
+	//for (auto t : tiles) {
+	//	t->getComponent<TileComponent>().destRect.x += -(pVel.m_x * pSpeed);
+	//	t->getComponent<TileComponent>().destRect.y += -(pVel.m_y * pSpeed);
+	//}
+	//end scrolling
 
 	/*for (auto cc : colliders) {
 		Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
@@ -221,7 +235,7 @@ int main(int argc, char* args[])
 	Uint32 frameStart, frameTime;
 
 	std::cout << "game init attempt...\n";
-	if (Game::Instance()->init("Let's make games", 100, 100, 800, 632,
+	if (Game::Instance()->init("Let's make games", 100, 100, 800, 640,
 		false))
 	{
 		std::cout << "game init success!\n";

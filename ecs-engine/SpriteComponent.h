@@ -61,20 +61,20 @@ public:
 		if (animated)
 		{
 			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
-			cFrame = (SDL_GetTicks() / speed) % frames; //only useful line in update. The rest is from BirchEngine
+			cFrame = (SDL_GetTicks() / speed) % frames;
 		}
 
 		srcRect.y = animIndex * transform->height; //for sprite sheets with various animations.
 
-		destRect.x = static_cast<int>(transform->position.m_x);
-		destRect.y = static_cast<int>(transform->position.m_y);
+		destRect.x = static_cast<int>(transform->position.m_x) - Game::camera.x;
+		destRect.y = static_cast<int>(transform->position.m_y) - Game::camera.y;
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 	}
 
 	void draw() override
 	{
-		AssetsManager::Instance()->drawFrameScl(textureID, (int)transform->position.m_x, (int)transform->position.m_y, srcRect.w, srcRect.h, destRect.w, destRect.h, animIndex, cFrame,
+		AssetsManager::Instance()->drawFrameScl(textureID, destRect.x, destRect.y, srcRect.w, srcRect.h, destRect.w, destRect.h, animIndex, cFrame,
 			Game::Instance()->getRenderer(), 0.0, 255, spriteFlip);
 	}
 

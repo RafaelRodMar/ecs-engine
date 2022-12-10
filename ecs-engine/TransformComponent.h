@@ -38,6 +38,8 @@ public:
 	}
 
 	void update() override {
+		position.m_x += velocity.m_x * speed;
+		position.m_y += velocity.m_y * speed;
 	}
 
 	void setPos(float x, float y) {
