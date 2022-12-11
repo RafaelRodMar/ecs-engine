@@ -116,6 +116,11 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
 
+	CreateProjectile(Vector2D(600, 600), Vector2D(2,0), 200, 2, "proj_test");
+	CreateProjectile(Vector2D(600, 620), Vector2D(2, 0), 200, 2, "proj_test");
+	CreateProjectile(Vector2D(400, 600), Vector2D(2, 1), 200, 2, "proj_test");
+	CreateProjectile(Vector2D(600, 600), Vector2D(2, -1), 200, 2, "proj_test");
+
 	/*wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
 	wall.addComponent<SpriteComponent>("dirt");
 	wall.addComponent<ColliderComponent>("wall");
@@ -127,6 +132,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 auto& tiles(manager.getGroup(Game::groupMap));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
+auto& projectiles(manager.getGroup(Game::groupProjectiles));
 
 void Game::handleEvents()
 {
@@ -146,6 +152,13 @@ void Game::update()
 		if (Collision::AABB(cCol, playerCol))
 		{
 			player.getComponent<TransformComponent>().position = playerPos;
+		}
+	}
+
+	for (auto& p : projectiles) {
+		if (Collision::AABB(player.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
+		{
+			p->destroy();
 		}
 	}
 
@@ -196,8 +209,18 @@ void Game::render()
 	for (auto& t : tiles) { t->draw(); }
 	//for (auto& c : colliders) { c->draw(); } //visible colliders.
 	for (auto& p : players) { p->draw(); }
+	for (auto& p : projectiles) { p->draw(); }
 
 	SDL_RenderPresent(m_pRenderer);
+}
+
+void Game::CreateProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id) {
+	auto& projectile(manager.addEntity());
+	projectile.addComponent<TransformComponent>(pos.m_x, pos.m_y, 32, 32, 1);
+	projectile.addComponent<SpriteComponent>(id, false);
+	projectile.addComponent<ProjectileComponent>(range, speed, vel);
+	projectile.addComponent<ColliderComponent>("projectile");
+	projectile.addGroup(Game::groupProjectiles);
 }
 
 void Game::clean()

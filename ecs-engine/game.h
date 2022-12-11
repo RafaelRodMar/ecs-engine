@@ -49,8 +49,12 @@ public:
 	enum groupLabels : std::size_t {
 		groupMap,
 		groupPlayers,
-		groupColliders
+		groupColliders,
+		groupProjectiles
 	};
+
+	//gameobjects
+	void CreateProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id);
 
 private:
 	Game();
