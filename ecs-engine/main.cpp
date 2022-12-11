@@ -9,6 +9,7 @@
 #include "json.hpp"
 #include "Components.h"
 #include "Collision.h"
+#include <sstream>
 
 //map class
 class Map* mapa;
@@ -38,6 +39,7 @@ bool Game::m_bRunning = false;
 
 //Entity Component System
 auto& player(manager.addEntity()); //creates a new entity
+auto& label(manager.addEntity());
 
 bool Game::init(const char* title, int xpos, int ypos, int width,
 	int height, bool fullscreen)
@@ -116,6 +118,9 @@ bool Game::init(const char* title, int xpos, int ypos, int width,
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
 
+	SDL_Color white = { 255,255,255,255 };
+	label.addComponent<UILabel>(10, 10, "Test string", "font", white);
+
 	CreateProjectile(Vector2D(600, 600), Vector2D(2,0), 200, 2, "proj_test");
 	CreateProjectile(Vector2D(600, 620), Vector2D(2, 0), 200, 2, "proj_test");
 	CreateProjectile(Vector2D(400, 600), Vector2D(2, 1), 200, 2, "proj_test");
@@ -143,6 +148,10 @@ void Game::update()
 {
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
+
+	std::stringstream ss;
+	ss << "Player position: " << playerPos.m_x << "," << playerPos.m_y;
+	label.getComponent<UILabel>().SetLabelText(ss.str(), "font");
 
 	manager.refresh(); //remove destroyed elements
 	manager.update(); //ECS
@@ -210,6 +219,7 @@ void Game::render()
 	//for (auto& c : colliders) { c->draw(); } //visible colliders.
 	for (auto& p : players) { p->draw(); }
 	for (auto& p : projectiles) { p->draw(); }
+	label.draw();
 
 	SDL_RenderPresent(m_pRenderer);
 }

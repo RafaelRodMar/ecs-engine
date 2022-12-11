@@ -77,6 +77,10 @@ public:
 	//usage: AssetsManager::Instance()->Text("hola mundo 1", "font", 50, 50, SDL_Color({ 190,34,12,0 }), Game::Instance()->getRenderer());
 	void Text(const std::string &message, const std::string &font, int x, int y, SDL_Color color, SDL_Renderer *renderer);
 
+	TTF_Font* getFont(std::string f) {
+		return m_fonts[f];
+	}
+
 	/*void clearFonts() {
 		auto iter = m_fonts.begin();
 		while (iter != m_fonts.end()) {
